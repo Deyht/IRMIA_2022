@@ -10,7 +10,7 @@ class_list = np.array(["aeroplane", "bicycle","bird","boat","bottle","bus","car"
 		"cat","chair","cow","diningtable","dog","horse", "motorbike",\
 		"person","pottedplant","sheep","sofa","train","tvmonitor"])
 
-train_list = np.loadtxt("VOCdevkit/VOC2012/ImageSets/Main/trainval.txt", dtype="str")
+train_list = np.loadtxt("/content/PASCAL/VOCdevkit/VOC2012/ImageSets/Main/trainval.txt", dtype="str")
 
 
 def make_square(im, min_size=256, fill_color=(0, 0, 0, 0)):
@@ -71,7 +71,7 @@ def init_data_gen():
 
 		for i in tqdm(range(0, orig_nb_images)):
 
-			im = Image.open("VOCdevkit/VOC2012/JPEGImages/"+train_list[i]+".jpg")
+			im = Image.open("/content/PASCAL/VOCdevkit/VOC2012/JPEGImages/"+train_list[i]+".jpg")
 			width, height = im.size
 
 			im = make_square(im)
@@ -108,7 +108,7 @@ def create_train_batch():
 		
 		i_d = np.random.randint(0,orig_nb_images)
 		
-		tree = ET.parse("VOCdevkit/VOC2012/Annotations/"+train_list[i_d]+".xml")
+		tree = ET.parse("/content/PASCAL/VOCdevkit/VOC2012/Annotations/"+train_list[i_d]+".xml")
 		root = tree.getroot()
 
 		patch = np.copy(all_im[i_d])
