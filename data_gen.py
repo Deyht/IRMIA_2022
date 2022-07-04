@@ -182,7 +182,7 @@ def create_test_batch():
 		
 		i_d = i*10
 
-		tree = ET.parse("VOCdevkit/VOC2012/Annotations/"+train_list[i_d]+".xml")
+		tree = ET.parse("/content/PASACAL/VOCdevkit/VOC2012/Annotations/"+train_list[i_d]+".xml")
 		root = tree.getroot()
 		
 		patch = np.copy(all_im[i_d])
