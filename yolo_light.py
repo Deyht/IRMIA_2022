@@ -3,7 +3,7 @@ from threading import Thread
 import data_gen as gn
 
 import sys
-sys.path.insert(0,'/content/CIANNA/src/build/lib.linux-x86_64-3.7')
+sys.path.insert(0,'/home/dcornu/Development/CIANNA/src/build/lib.linux-x86_64-3.8')
 import CIANNA as cnn
 
 
@@ -52,7 +52,7 @@ cnn.create_dataset("TEST" , nb_test, input_test[:,:], targets_test[:,:])
 #Size priors for all possible boxes per grid. element 
 prior = f_ar([10.,30.,60.,80.,120.,180.])
 
-nb_yolo_filters = cnn.set_yolo_params(nb_box=nb_box, nb_class=nb_class, nb_param=nb_param, prior_w=prior, IoU_type = "DIoU", strict_box_size = 1)
+nb_yolo_filters = cnn.set_yolo_params(nb_box=nb_box, nb_class=nb_class, nb_param=nb_param, prior_w=prior, IoU_type="DIoU", strict_box_size=1)
 
 if(load_epoch > 0):
 	cnn.load("net_save/net0_s%04d.dat"%load_epoch,load_epoch)
@@ -80,8 +80,8 @@ for block in range(0,2000): #2000
 	t = Thread(target=data_augm)
 	t.start()
 	
-	cnn.train(nb_epoch=1, learning_rate=0.0002, end_learning_rate=0.00001, shuffle_every=0,\
-			 momentum=0.5, decay=0.0005, save_every=50, silent=1, TC_scale_factor=32.0)
+	cnn.train(nb_epoch=1, learning_rate=0.0001, end_learning_rate=0.00001, shuffle_every=0,\
+			 momentum=0.5, decay=0.001, save_every=50, silent=1, TC_scale_factor=32.0)
 				 
 	if(block == 0):
 		cnn.perf_eval()
