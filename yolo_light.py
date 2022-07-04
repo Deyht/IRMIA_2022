@@ -22,6 +22,7 @@ def data_augm():
 nb_images = 2000
 nb_test = 100
 nb_param = 0
+nb_class = 20
 
 max_nb_obj_per_image = 48
 
@@ -49,41 +50,9 @@ cnn.create_dataset("TEST" , nb_test, input_test[:,:], targets_test[:,:])
 ##### YOLO parameters tuning #####
 
 #Size priors for all possible boxes per grid. element 
-priors_w = f_ar([20.,40.,60.,80.,120.,180.])
-priors_h = f_ar([20.,40.,60.,80.,120.,180.])
-priors_d = f_ar([1.0,1.0,1.0,1.0,1.0,1.0])
-#No obj probability prior to rebalance the size distribution
-prior_noobj_prob = f_ar([0.1,0.1,0.1,0.05,0.05,0.05])
+priors = f_ar([10.,30.,60.,80.,120.,180.])
 
-#Relative scaling of each error "type" : 
-#[Position, Size, Probability, Objectness, Class, Ex. Param]
-error_scales = f_ar([2.0, 3.0, 1.0, 5.0, 2.0, 1.0])
-#Relative scaling of each extra paramater
-param_ind_scales = f_ar([1.0])
-#Various IoU limit conditions
-#[Good but not best boxes, Prob. fit, Obj. fit, class fit, param fit] 
-IoU_limits = f_ar([0.2, 0.0, 0.3, 0.0, 0.3])
-#Activate / deactivate some parts of the loss
-#[Position, Size, Probability & Objectness, Classification, Ex. Param]
-fit_parts = i_ar([1, 1, 1, 1, 0])
-#Supplementary parameters for activation function of each part
-#[[Postion (sigmoid): beta , exp(lim), None   ]
-# [Size    (linear) : slope, max lim , min lim]
-# [Proba   (sigmoid): beta , exp(lim), None   ]
-# [Object. (sigmoid): beta , exp(lim), None   ]
-# [Class.  (sigmoid): beta , exp(lim), None   ]
-# [Param.  (linear) : slope, max lim , min lim]]
-slopes_and_maxes = f_ar([[2.0, 8.0, 0.0],\
-			 [0.5, 1.8, -1.4],\
-			 [1.0, 8.0, 0.0],\
-			 [1.0, 8.0, 0.0],\
-			 [2.0, 8.0, 0.0],\
-			 [1.0, 2.0, -0.2]])
-
-nb_yolo_filters = cnn.set_yolo_params(nb_box=nb_box, prior_w=priors_w, prior_h=priors_h, prior_d = priors_d,\
-						prior_noobj_prob=prior_noobj_prob, nb_class=20, nb_param=nb_param, IoU_type = "DIoU",
-						error_scales = error_scales, param_ind_scales = param_ind_scales, slopes_and_maxes = slopes_and_maxes,
-						IoU_limits = IoU_limits, fit_parts = fit_parts, strict_box_size_association = 1)
+nb_yolo_filters = cnn.set_yolo_params(nb_box=nb_box, nb_class=nb_class, nb_param=nb_param, priors_w=priors, IoU_type = "DIoU", strict_box_size = 1)
 
 relu_a = cnn.relu(saturation=200.0, leaking=0.2)
 
