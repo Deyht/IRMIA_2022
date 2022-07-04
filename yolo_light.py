@@ -50,27 +50,25 @@ cnn.create_dataset("TEST" , nb_test, input_test[:,:], targets_test[:,:])
 ##### YOLO parameters tuning #####
 
 #Size priors for all possible boxes per grid. element 
-priors = f_ar([10.,30.,60.,80.,120.,180.])
+prior = f_ar([10.,30.,60.,80.,120.,180.])
 
-nb_yolo_filters = cnn.set_yolo_params(nb_box=nb_box, nb_class=nb_class, nb_param=nb_param, priors_w=priors, IoU_type = "DIoU", strict_box_size = 1)
-
-relu_a = cnn.relu(saturation=200.0, leaking=0.2)
+nb_yolo_filters = cnn.set_yolo_params(nb_box=nb_box, nb_class=nb_class, nb_param=nb_param, prior_w=prior, IoU_type = "DIoU", strict_box_size = 1)
 
 if(load_epoch > 0):
 	cnn.load("net_save/net0_s%04d.dat"%load_epoch,load_epoch)
 else:
 	
-	cnn.conv(f_size=i_ar([3,3]), nb_filters=16  , padding=i_ar([1,1]), activation=relu_a)
+	cnn.conv(f_size=i_ar([3,3]), nb_filters=16  , padding=i_ar([1,1]), activation="RELU")
 	cnn.pool(p_size=i_ar([2,2]), p_type="MAX")
-	cnn.conv(f_size=i_ar([3,3]), nb_filters=32  , padding=i_ar([1,1]), activation=relu_a)
+	cnn.conv(f_size=i_ar([3,3]), nb_filters=32  , padding=i_ar([1,1]), activation="RELU")
 	cnn.pool(p_size=i_ar([2,2]), p_type="MAX")
-	cnn.conv(f_size=i_ar([3,3]), nb_filters=64 , padding=i_ar([1,1]), activation=relu_a)
+	cnn.conv(f_size=i_ar([3,3]), nb_filters=64 , padding=i_ar([1,1]), activation="RELU")
 	cnn.pool(p_size=i_ar([2,2]), p_type="MAX")
-	cnn.conv(f_size=i_ar([3,3]), nb_filters=128 , padding=i_ar([1,1]), activation=relu_a)
+	cnn.conv(f_size=i_ar([3,3]), nb_filters=128 , padding=i_ar([1,1]), activation="RELU")
 	cnn.pool(p_size=i_ar([2,2]), p_type="MAX")
-	cnn.conv(f_size=i_ar([3,3]), nb_filters=128 , padding=i_ar([1,1]), activation=relu_a)
+	cnn.conv(f_size=i_ar([3,3]), nb_filters=128 , padding=i_ar([1,1]), activation="RELU")
 	cnn.pool(p_size=i_ar([2,2]), p_type="MAX")
-	cnn.conv(f_size=i_ar([3,3]), nb_filters=256, padding=i_ar([1,1]), activation=relu_a)
+	cnn.conv(f_size=i_ar([3,3]), nb_filters=256, padding=i_ar([1,1]), activation="RELU")
 
 	cnn.conv(f_size=i_ar([1,1]), nb_filters=nb_yolo_filters, padding=i_ar([0,0]), activation="YOLO")
 	
@@ -82,7 +80,7 @@ for block in range(0,2000): #2000
 	t = Thread(target=data_augm)
 	t.start()
 	
-	cnn.train(nb_epoch=1, learning_rate=0.0001, end_learning_rate=0.000001, shuffle_every=0,\
+	cnn.train(nb_epoch=1, learning_rate=0.0002, end_learning_rate=0.00001, shuffle_every=0,\
 			 momentum=0.5, decay=0.0005, save_every=50, silent=1, TC_scale_factor=32.0)
 				 
 	if(block == 0):
