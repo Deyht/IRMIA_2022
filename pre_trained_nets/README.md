@@ -1,0 +1,3 @@
+Pre trained networks are too large for Git.
+
+Instead they available asan archive at ...
