@@ -1,3 +1,1 @@
-Pre trained networks are too large for Git.
-
-Instead they available asan archive at ...
+Pre trained networks saves in binary format.
