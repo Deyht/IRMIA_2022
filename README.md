@@ -1,10 +1,10 @@
 # IRMIA_2022
 
-Updated version  
+Updated version (ESPCI 03/2023) 
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Deyht/IRMIA_2022/blob/main/IRMIA_DL_Summer_school_2022_Object_Detection_with_YOLO_full_v3_ESPCI.ipynb)
 
-Old version  
+Old version (post-school update) 
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Deyht/IRMIA_2022/blob/main/IRMIA_DL_Summer_school_2022_Object_Detection_with_YOLO_full_v2.ipynb)
 
